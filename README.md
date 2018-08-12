@@ -1,5 +1,5 @@
 # IntelliJ RunConfig Loader
-IntelliJ itself is the greates IDE I've ever used. But one important feature, the IDE doesn't provide by itself: Import and export Run Configurations. And that's what this plugin is developed for.
+IntelliJ itself is the greatest IDE I've ever used. But one important feature, the IDE doesn't provide by itself: Import and export Run Configurations. And that's what this plugin is developed for.
 
 ## Import
 There are two ways to import configurations into your project. 
