@@ -14,7 +14,7 @@ There are two ways to import configurations into your project.
 2. Now enable the checkbox and choose the path you'd like to load your configurations from, everytime the project is reopened.
 3. The *new* configurations, will now be imported each time, the IDE starts.
 
-##Export
+## Export
 To export all project run configurations, simply use the export functionality:
 1. Click *Tools &rarr; RunConf Handler &rarr; Export Run Confgurations* and choose the folder where you'd like to export your configurations to.
 2. In the list at the bottom of the dialog, you see all configurations which will be exported.
