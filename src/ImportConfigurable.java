@@ -43,4 +43,11 @@ public class ImportConfigurable implements SearchableConfigurable {
 	public void apply() {
 
 	}
+
+	@Override
+	public void disposeUIResources() {
+		if (!importConfig.hasDefault) {
+			importConfig.setDefaultPath(null);
+		}
+	}
 }
