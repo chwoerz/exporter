@@ -11,8 +11,7 @@ public interface RunConfImporter {
 	static RunConfImporter getInstance(@NotNull Project project) {
 		return ServiceManager.getService(project, RunConfImporter.class);
 	}
-
-
+	
 	void importConfigs(List<RunnerAndConfigurationSettings> settingsList);
 
 	void importConfigs(String importPath);

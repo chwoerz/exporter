@@ -14,24 +14,26 @@ import impl.RunConfImporter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RunConfigImporterUI extends AnAction {
 
 	private DialogBuilder dialogBuilder;
-	private List<RunnerAndConfigurationSettings> runnerAndConfigurationSettings = new ArrayList<>();
+	private List<RunnerAndConfigurationSettings> newConfigurations = new ArrayList<>();
 
 	@Override
 	public void actionPerformed(AnActionEvent e) {
 		dialogBuilder = new DialogBuilder().centerPanel(createExportDialog(e.getProject()));
+		dialogBuilder.getCenterPanel().setPreferredSize(new Dimension(600, 300));
 		dialogBuilder.setTitle("Import All Run Configurations");
 		dialogBuilder.addOkAction();
 		dialogBuilder.addCancelAction();
 		dialogBuilder.setOkActionEnabled(false);
+		dialogBuilder.getWindow().setSize(500, 300);
+		dialogBuilder.getCenterPanel().setSize(500, 300);
 		dialogBuilder.setOkOperation(() -> {
-			impl.RunConfImporter.getInstance(e.getProject()).importConfigs(runnerAndConfigurationSettings);
+			impl.RunConfImporter.getInstance(e.getProject()).importConfigs(newConfigurations);
 			dialogBuilder.getDialogWrapper().close(1);
 		});
 		dialogBuilder.getOkAction().setText("Import");
@@ -51,10 +53,12 @@ public class RunConfigImporterUI extends AnAction {
 		panel.add(spacer1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
 		DefaultListModel<String> model = new DefaultListModel<>();
 		JBList<String> importList = new JBList<>(model);
-		importList.setVisible(false);
+		importList.setEnabled(false);
+		importList.setEmptyText("Choose folder to import configurations from");
 		panel.add(importList, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
 
-		ActionListener use_for_import = e -> {
+
+		openButton.addActionListener(e -> {
 			FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor();
 			descriptor.setDescription("Folder to import configurations from");
 			FileChooser.chooseFiles(descriptor, project, null, virtualFiles -> {
@@ -63,13 +67,14 @@ public class RunConfigImporterUI extends AnAction {
 				List<RunnerAndConfigurationSettings> runnerAndConfigurationSettings = RunConfImporter.getInstance(project).retrieveNewConfigs(importPath);
 				runnerAndConfigurationSettings.stream()
 						.map(RunnerAndConfigurationSettings::getConfiguration)
-						.forEach(setting -> model.addElement(setting.getName()));
+						.forEach(setting -> model.addElement(setting.getType().getDisplayName() + " : " + setting.getName()));
 				importList.setVisible(!runnerAndConfigurationSettings.isEmpty());
+				importList.setEmptyText("No new configurations found to import");
+
 
 				dialogBuilder.setOkActionEnabled(true);
 			});
-		};
-		openButton.addActionListener(use_for_import);
+		});
 		return panel;
 	}
 }

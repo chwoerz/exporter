@@ -25,6 +25,7 @@ public class RunConfExporterUI extends AnAction {
 		Project project = e.getProject();
 		assert project != null;
 		dialogBuilder = new DialogBuilder().centerPanel(createExportDialog(project));
+		dialogBuilder.getCenterPanel().setPreferredSize(new Dimension(600, 300));
 		dialogBuilder.setTitle("Export All Run Configurations");
 		dialogBuilder.addOkAction();
 		dialogBuilder.addCancelAction();
@@ -50,10 +51,11 @@ public class RunConfExporterUI extends AnAction {
 		panel1.add(spacer1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
 		DefaultListModel<String> model = new DefaultListModel<>();
 		JBList<String> exportList = new JBList<>(model);
+		exportList.setEnabled(false);
 		exportList.setEmptyText("No configurations found to export");
 		panel1.add(exportList, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
 		RunManagerImpl manager = RunManagerImpl.getInstanceImpl(project);
-		manager.getAllConfigurationsList().forEach(config -> model.addElement(config.getName()));
+		manager.getAllConfigurationsList().forEach(config -> model.addElement(config.getType().getDisplayName() + " : " + config.getName()));
 		openButton.addActionListener(e -> {
 			FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor();
 			descriptor.setDescription("Folder to export configurations to");

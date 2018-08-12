@@ -1,5 +1,6 @@
 package impl;
 
+import com.intellij.execution.RunManager;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.impl.RunManagerImpl;
 import com.intellij.execution.impl.RunnerAndConfigurationSettingsImpl;
@@ -23,7 +24,7 @@ public class RunConfExporterImpl implements RunConfExporter {
 
 	@Override
 	public void exportConfigs(String pathToFolder) {
-		RunManagerImpl manager = RunManagerImpl.getInstanceImpl(project);
+		RunManager manager = RunManager.getInstance(project);
 		File dir = new File(pathToFolder);
 		List<RunConfiguration> allConfigurationsList = manager.getAllConfigurationsList();
 		allConfigurationsList.stream()
