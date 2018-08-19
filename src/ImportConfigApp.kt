@@ -2,14 +2,14 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
-import com.intellij.openapi.project.Project
 import com.intellij.util.xmlb.XmlSerializerUtil
 
-@State(name = "ImportConfig", storages = [(Storage("ImportConfig.xml"))])
-class ImportConfig : PersistentStateComponent<ImportConfig>, ImportConfigInterface {
+@State(name = "ImportConfigApp", storages = [(Storage("ImportConfigApp.xml"))])
+class ImportConfigApp : PersistentStateComponent<ImportConfigApp>, ImportConfigInterface {
 
     var defaultPath: String? = null
     var hasDefault: Boolean = false
+
 
     override fun getPath(): String? {
         return defaultPath
@@ -19,18 +19,18 @@ class ImportConfig : PersistentStateComponent<ImportConfig>, ImportConfigInterfa
         return hasDefault
     }
 
-    override fun getState(): ImportConfig {
+    override fun getState(): ImportConfigApp {
         return this
     }
 
-    override fun loadState(importConfig: ImportConfig) {
+    override fun loadState(importConfig: ImportConfigApp) {
         XmlSerializerUtil.copyBean(importConfig, this)
     }
 
     companion object {
 
-        fun getInstance(project: Project): ImportConfig {
-            return ServiceManager.getService(project, ImportConfig::class.java)
+        fun getInstance(): ImportConfigApp {
+            return ServiceManager.getService(ImportConfigApp::class.java)
         }
     }
 }

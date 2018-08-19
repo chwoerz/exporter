@@ -35,10 +35,10 @@ class RunConfImporterImpl(private val project: Project) : RunConfImporter {
                         val data = JDOMUtil.load(it)
                         val settings = RunnerAndConfigurationSettingsImpl(manager)
                         settings.readExternal(data.children[0], true)
-                        errors.add(it)
                         settings
                     } catch (e: RuntimeException) {
                         errors.add(it)
+                        e.printStackTrace()
                         null
                     }
                 }
@@ -48,7 +48,8 @@ class RunConfImporterImpl(private val project: Project) : RunConfImporter {
         if (!errors.isEmpty()) {
             val stringBuilder = StringBuilder()
             errors.forEach { stringBuilder.append("\n" + it.name) }
-            Messages.showMessageDialog(project, "Some files could not be imported:" + stringBuilder.toString(), "Errors during import", Messages.getInformationIcon())
+            Messages.showMessageDialog(project, "Some files could not be imported, Check the Log for specific errors:" + stringBuilder.toString(),
+                    "Errors during import", Messages.getInformationIcon())
         }
         return successfullyReadFiles
     }

@@ -23,7 +23,6 @@
 	<!-- uncomment to enable plugin in all products
 	<depends>com.intellij.modules.lang</depends>
 	-->
-
 	<project-components>
 		<component>
 			<!-- Interface and implementation classes are the same -->
@@ -42,10 +41,12 @@
 	</project-components>
 
 	<extensions defaultExtensionNs="com.intellij">
+		<applicationService serviceInterface="ImportConfigApp"
+							serviceImplementation="ImportConfigApp"/>
 		<projectService serviceInterface="ImportConfig"
 						serviceImplementation="ImportConfig"/>
 		<projectConfigurable groupId="tools"
-							 displayName="RunConf Importer"
+							 displayName="RunConf Project Settings"
 							 id="preferences.RunConfConfigurable"
 							 instance="ImportConfigurable"/>
 		<!-- Add your extensions here -->

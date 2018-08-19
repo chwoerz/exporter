@@ -7,11 +7,17 @@ import java.io.File
 class RunConfigImporterDefaultComponent internal constructor(private val project: Project) : ProjectComponent {
 
     override fun projectOpened() {
+        val appConfig = ImportConfigApp.getInstance()
+        importFromPath(appConfig)
         val importConfig = ImportConfig.getInstance(project)
-        if (importConfig.hasDefault) {
-            val path = importConfig.defaultPath
-            val file = File(path!!)
-            if (file.exists()) {
+        importFromPath(importConfig)
+    }
+
+    private fun importFromPath(importconfig: ImportConfigInterface) {
+        if (importconfig.hasDefault() && importconfig.getPath() != null) {
+            val path = importconfig.getPath()
+            val dir = File(path!!)
+            if (dir.exists()) {
                 RunConfImporter.getInstance(project).importConfigs(path)
             }
         }

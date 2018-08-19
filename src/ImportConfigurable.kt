@@ -5,6 +5,7 @@ import javax.swing.JComponent
 
 class ImportConfigurable(private val project: Project) : SearchableConfigurable {
     private val importConfig = ImportConfig.getInstance(project)
+    private val importConfigApp = ImportConfigApp.getInstance()
 
     override fun getId(): String {
         return "preferences.RunConfConfigurable"
@@ -16,7 +17,7 @@ class ImportConfigurable(private val project: Project) : SearchableConfigurable 
     }
 
     override fun createComponent(): JComponent? {
-        return ConfigUI.createPanel(project, importConfig)
+        return ConfigUI.createPanel(project, importConfigApp, importConfig)
     }
 
     override fun isModified(): Boolean {
