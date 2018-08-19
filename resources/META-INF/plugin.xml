@@ -46,7 +46,7 @@
 		<projectService serviceInterface="ImportConfig"
 						serviceImplementation="ImportConfig"/>
 		<projectConfigurable groupId="tools"
-							 displayName="RunConf Project Settings"
+							 displayName="RunConf Handler"
 							 id="preferences.RunConfConfigurable"
 							 instance="ImportConfigurable"/>
 		<!-- Add your extensions here -->
